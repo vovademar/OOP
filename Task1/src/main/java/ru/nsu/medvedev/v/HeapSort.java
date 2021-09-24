@@ -1,7 +1,7 @@
 package ru.nsu.medvedev.v;
 
 public class HeapSort {
-    public void sort(int arr[]) {
+    public static void sort(int arr[]) {
         int n = arr.length;
         for (int i = n / 2 - 1; i >= 0; i--) {
             heapify(arr, n, i);
@@ -14,7 +14,7 @@ public class HeapSort {
         }
     }
 
-    public void heapify(int arr[], int n, int i) {
+    public static void heapify(int arr[], int n, int i) {
         int max = i;
         int l = 2 * i + 1;
         int r = 2 * i + 2;
