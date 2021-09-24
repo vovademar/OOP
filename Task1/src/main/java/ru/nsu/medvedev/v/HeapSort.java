@@ -31,15 +31,5 @@ public class HeapSort {
             heapify(arr, n, max);
         }
     }
-
-    public static void main(String[] args) {
-        int arr[] = {5, 1, 2, 2, 2, 123};
-        HeapSort hp = new HeapSort();
-        hp.sort(arr);
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-
-    }
 }
 
