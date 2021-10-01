@@ -1,13 +1,20 @@
 package ru.nsu.medvedev.v;
+import java.io.*;
+import java.util.ArrayList;
+
 
 public class ZFunc {
-    public static void search(String text, String needle) {
+
+    public static void search(String text, String needle, ArrayList<Integer> answer) {
+        int n = needle.length();
+        //text(text_processing();
         String concat = needle + "#" + text;
         int l = concat.length();
         int Z[] = new int[l];
         Zarr(concat, Z);
         for (int i = 0; i < l; ++i) {
             if (Z[i] == needle.length()) {
+                answer.add(i - needle.length() - 1);
                 System.out.println(i - needle.length() - 1);
             }
         }
@@ -41,9 +48,12 @@ public class ZFunc {
         }
     }
 
-    public static void main(String[] args) {
-        String text = "тачки диски рули";
-        String needle = "ки";
-        search(text, needle);
-    }
+//    public static void text_processing(String text, int size){
+//
+//    }
+//    public static void main(String[] args) {
+//        String text = "тачки диски рули";
+//        String needle = "ки";
+//        search(text, needle);
+//    }
 }
