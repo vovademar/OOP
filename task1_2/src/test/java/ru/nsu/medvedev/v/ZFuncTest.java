@@ -3,41 +3,41 @@ package ru.nsu.medvedev.v;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 
 public class ZFuncTest {
+
     @Test
-    void find_some() {
-        String text = "ban";
-        String niddle = "an";
-        ArrayList<Integer> result = new ArrayList<>();
-        ZFunc.search(text, niddle, result);
-        ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(1);
-        Assertions.assertEquals(expected, result);
+    void find_empty() throws IOException {
+        char[] needle = {'o', 'p'};
+        Reader file = new FileReader("test2.txt");
+        ArrayList<Integer> res = ZFunc.search(file, needle);
+        ArrayList<Integer> excepted = new ArrayList<>();
+        Assertions.assertArrayEquals(res.toArray(), excepted.toArray());
     }
 
     @Test
-    void find_void() {
-        String text = "ban";
-        String niddle = " ";
-        ArrayList<Integer> result = new ArrayList<>();
-        ZFunc.search(text, niddle, result);
-        ArrayList<Integer> expected = new ArrayList<>();
-        Assertions.assertEquals(expected, result);
+    void find_some() throws IOException {
+        char[] needle = {'r', 'a'};
+        Reader file = new FileReader("test3.txt");
+        ArrayList<Integer> res = ZFunc.search(file, needle);
+        ArrayList<Integer> excepted = new ArrayList<>();
+        excepted.add(2);
+        Assertions.assertArrayEquals(res.toArray(), excepted.toArray());
     }
 
     @Test
-    void find_somemore() {
-        String text = "bananananan";
-        String niddle = "na";
-        ArrayList<Integer> result = new ArrayList<>();
-        ZFunc.search(text, niddle, result);
-        ArrayList<Integer> expected = new ArrayList<>();
-        expected.add(2);
-        expected.add(4);
-        expected.add(6);
-        expected.add(8);
-        Assertions.assertEquals(expected, result);
+    void find_large() throws IOException {
+        char[] needle = {'o', 'p'};
+        Reader file = new FileReader("test1.txt");
+        ArrayList<Integer> res = ZFunc.search(file, needle);
+        ArrayList<Integer> excepted = new ArrayList<>();
+        excepted.add(2);
+        excepted.add(131);
+        Assertions.assertArrayEquals(res.toArray(), excepted.toArray());
     }
 }
