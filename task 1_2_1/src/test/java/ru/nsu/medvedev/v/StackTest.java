@@ -43,7 +43,7 @@ public class StackTest {
     }
 
     @Test
-    public void pushStack_popStack_NotEmptyStack() {
+    public void some_test1() {
         MyStack<Integer> stack2 = new MyStack<>();
         stack.push(12);
         stack.push(11);
@@ -52,9 +52,21 @@ public class StackTest {
         stack.push(1);
         stack.pushStack(stack2);
         Assertions.assertEquals(5, stack.count());
-        stack.popStack(4);
-        Assertions.assertEquals(12, stack.pop());
-        Assertions.assertEquals(0, stack.count());
+        Assertions.assertEquals(9, stack.pop());
+        Assertions.assertEquals(10, stack.pop());
+        Assertions.assertEquals(1, stack.pop());
+        Assertions.assertEquals(2, stack.count());
     }
 
+    @Test
+    void popStack() {
+        stack.push(4);
+        stack.push(7);
+        stack.push(1);
+        MyStack<Integer> stack2 = stack.popStack(3);
+        Assertions.assertEquals(1, stack2.pop());
+        Assertions.assertEquals(7, stack2.pop());
+        Assertions.assertEquals(4, stack2.pop());
+        Assertions.assertEquals(0, stack2.count());
+    }
 }
