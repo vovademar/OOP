@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.NoSuchElementException;
+
 public class StackTest {
     MyStack<Integer> stack;
 
@@ -43,7 +45,7 @@ public class StackTest {
     }
 
     @Test
-    public void some_test1() {
+    public void pushstack_test() {
         MyStack<Integer> stack2 = new MyStack<>();
         stack.push(12);
         stack.push(11);
@@ -68,5 +70,17 @@ public class StackTest {
         Assertions.assertEquals(7, stack2.pop());
         Assertions.assertEquals(4, stack2.pop());
         Assertions.assertEquals(0, stack2.count());
+    }
+
+    @Test
+    void popStack_exception() {
+        Assertions.assertThrows(NoSuchElementException.class, () -> {stack.popStack(-1);});
+    }
+
+    @Test
+    void pop_exception() {
+        stack.push(1);
+        stack.pop();
+        Assertions.assertThrows(NoSuchElementException.class, () -> {stack.pop();});
     }
 }
