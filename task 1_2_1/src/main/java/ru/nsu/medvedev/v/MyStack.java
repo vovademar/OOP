@@ -10,8 +10,8 @@ public class MyStack<T> implements Iterable<T> {
     private T[] arr;
     final private int MULTY = 2;
     final private int STACKSIZE = 10;
-    @SuppressWarnings("unchecked")
 
+    @SuppressWarnings("unchecked")
     public MyStack() {
         arr = (T[]) new Object[STACKSIZE];
     }
@@ -24,7 +24,7 @@ public class MyStack<T> implements Iterable<T> {
 
     public T pop() {
         if (size <= 0) {
-            throw new EmptyStackException();
+            throw new NoSuchElementException();
         }
         size--;
         return arr[size];
