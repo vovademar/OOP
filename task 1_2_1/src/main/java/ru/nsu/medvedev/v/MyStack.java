@@ -24,7 +24,7 @@ public class MyStack<T> implements Iterable<T> {
 
     public T pop() {
         if (size <= 0) {
-            throw new NoSuchElementException();
+            throw new EmptyStackException();
         }
         size--;
         return arr[size];
