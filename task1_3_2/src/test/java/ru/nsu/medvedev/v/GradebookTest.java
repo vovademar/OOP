@@ -23,21 +23,61 @@ public class GradebookTest {
     }
 
     @Test
-    void avg_test() {
+    public void avg_test() {
         ArrayList<Integer> marks = valdemar.getAllGrades();
-        double grade = Gradebook.avg_grade(marks);
+        double grade = valdemar.avgGrade(marks);
         Assertions.assertEquals(4.5, grade);
     }
 
     @Test
-    void reddiploma_test() {
+    public void reddiploma_test() {
         valdemar.setQualWork(5);
-        Assertions.assertFalse(Gradebook.reddiploma(valdemar));
+        Assertions.assertFalse(valdemar.reddiplomaCheck());
+    }
+
+    @Test
+    public void reddiploma_test_genius() {
+        Gradebook valdemar1;
+        valdemar1 = new Gradebook(20214, "Medvedevv", 0);
+        valdemar1.setGrade(1, 5, "Math");
+        valdemar1.setGrade(1, 5, "ProgaC");
+        valdemar1.setGrade(1, 5, "Haskellll");
+        valdemar1.setGrade(1, 5, "History");
+        valdemar1.setGrade(1, 4, "Logic");
+        valdemar1.setGrade(2, 5, "SQL");
+        valdemar1.setGrade(2, 5, "CP");
+        valdemar1.setGrade(2, 5, "trees");
+        valdemar1.setQualWork(5);
+        Assertions.assertTrue(valdemar1.reddiplomaCheck());
+    }
+
+    @Test
+    public void moneyflex_test_true() {
+        Gradebook valdemar2;
+        valdemar2 = new Gradebook(20214, "Medvedevv", 0);
+        valdemar2.setGrade(1, 5, "Math");
+        valdemar2.setGrade(1, 5, "ProgaC");
+        valdemar2.setGrade(1, 5, "Haskellll");
+        valdemar2.setGrade(1, 5, "History");
+        valdemar2.setGrade(1, 5, "Logic");
+        valdemar2.setGrade(2, 5, "SQL");
+        valdemar2.setGrade(2, 5, "CP");
+        valdemar2.setGrade(2, 5, "trees");
+        Assertions.assertTrue(valdemar2.HighScholarshipCheck(2));
     }
 
     @Test
     public void moneyflex_test_false() {
-        Assertions.assertFalse(valdemar.moneyflex(valdemar, 1));
+        Gradebook valdemar3;
+        valdemar3 = new Gradebook(20214, "Medvedevv", 0);
+        valdemar3.setGrade(1, 5, "Math");
+        valdemar3.setGrade(1, 5, "ProgaC");
+        valdemar3.setGrade(1, 4, "Haskellll");
+        valdemar3.setGrade(1, 5, "History");
+        valdemar3.setGrade(1, 5, "Logic");
+        valdemar3.setGrade(2, 5, "SQL");
+        valdemar3.setGrade(2, 5, "CP");
+        valdemar3.setGrade(2, 5, "trees");
+        Assertions.assertFalse(valdemar3.HighScholarshipCheck(1));
     }
-
 }
