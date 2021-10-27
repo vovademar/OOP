@@ -63,7 +63,7 @@ public class GradebookTest {
         valdemar2.setGrade(2, 5, "SQL");
         valdemar2.setGrade(2, 5, "CP");
         valdemar2.setGrade(2, 5, "trees");
-        Assertions.assertTrue(valdemar2.HighScholarshipCheck(2));
+        Assertions.assertTrue(valdemar2.highScholarshipCheck(2));
     }
 
     @Test
@@ -78,6 +78,6 @@ public class GradebookTest {
         valdemar3.setGrade(2, 5, "SQL");
         valdemar3.setGrade(2, 5, "CP");
         valdemar3.setGrade(2, 5, "trees");
-        Assertions.assertFalse(valdemar3.HighScholarshipCheck(1));
+        Assertions.assertFalse(valdemar3.highScholarshipCheck(1));
     }
 }

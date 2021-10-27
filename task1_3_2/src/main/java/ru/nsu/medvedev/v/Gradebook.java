@@ -14,7 +14,7 @@ public class Gradebook {
     private static int qualificationWorkGrade;
     private String name;
     final private int SEMNUM = 8;
-    private final Semester[] semester = new Semester[SEMNUM + 1];
+    private final Semester[] semester = new Semester[SEMNUM];
 
     /**
      * @param group - number of group
@@ -25,7 +25,7 @@ public class Gradebook {
         this.group = group;
         this.name = name;
         qualificationWorkGrade = grade;
-        for (int i = 1; i < SEMNUM + 1; i++) {
+        for (int i = 1; i < SEMNUM; i++) {
             semester[i] = new Semester();
         }
     }
@@ -121,7 +121,7 @@ public class Gradebook {
      */
     public ArrayList<Integer> getAllGrades() {
         ArrayList<Integer> grades = new ArrayList<>();
-        for (int i = 1; i < SEMNUM + 1; i++) {
+        for (int i = 1; i < SEMNUM; i++) {
             grades.addAll(semester[i].getGrades());
         }
         return grades;
@@ -170,7 +170,7 @@ public class Gradebook {
      * @param sem - number of semester
      * @return true if student have high scholarship; false if student doesn't have high scholarship
      */
-    public boolean HighScholarshipCheck(int sem) {
+    public boolean highScholarshipCheck(int sem) {
         Collection<Integer> marks = getSemGrade(sem);
         int grade5_cnt = 0;
         int allcnt = 0;
