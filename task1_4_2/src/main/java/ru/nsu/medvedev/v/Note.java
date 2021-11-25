@@ -1,36 +1,44 @@
 package ru.nsu.medvedev.v;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Note {
 
     private String text;
-    private String time;
+    private Date time;
 
+    public Note(){
+        this("", new Date());
+    }
+
+    public Note(String text, Date time) {
+        this.text = text;
+        this.time = time;
+    }
 
     public void setText(String text) {
         this.text = text;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String fromMilisecsToNormalTime(Date milisec) {
+        return new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss").format(milisec);
     }
 
     public String getText() {
         return text;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-
-    Note(String text, String time) {
-        this.text = text;
-        this.time = time;
+    @Override
+    public String toString() {
+        return "\n" + this.getText() + " " + fromMilisecsToNormalTime(this.getTime()) + "\n";
     }
-
 }

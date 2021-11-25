@@ -1,37 +1,62 @@
 package ru.nsu.medvedev.v;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Notebook {
-    public List<Note> notebook;
+    public List<Note> notes;
 
     public Notebook() {
-        notebook = new ArrayList<>();
+        notes = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
     }
 
-    public void add(String text) {
-        String date = new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss").format(new Date());
-        Date dateInfo = new Date(System.currentTimeMillis());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+    public void add(String text) throws IOException {
+        Date date = new Date(System.currentTimeMillis());
         Note note = new Note(text, date);
-        notebook.add(note);
+        add(note);
     }
 
-    public String show() throws JsonProcessingException {
+    public void add(Note note) throws IOException {
+        notes.add(note);
         ObjectMapper mapper = new ObjectMapper();
-        String jsonlist = mapper.writeValueAsString(notebook);
-        return jsonlist;
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        writer.writeValue(Paths.get("notes.json").toFile(), notes);
     }
 
-    public void remove(String textForDel) {
-        notebook.removeIf(note -> (note.getText().equals(textForDel)));
+    public String show() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Note> notesFromFile = Arrays.asList(mapper.readValue(Paths.get("notes.json").toFile(), Note[].class));
+        List<Note> sortedNotes = notesFromFile.stream()
+                .sorted(Comparator.comparing(Note::getTime, Comparator.nullsLast(Comparator.naturalOrder())))
+                .collect(Collectors.toList());
+        System.out.println(sortedNotes.toString());
+        return sortedNotes.toString();
+    }
+
+    public String show(Date from, Date till, String text) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Note> notesFromFile = Arrays.asList(mapper.readValue(Paths.get("notes.json").toFile(), Note[].class));
+        List<Note> filteredNotes = notesFromFile.stream()
+                .sorted(Comparator.comparing(Note::getTime, Comparator.nullsLast(Comparator.naturalOrder())))
+                .filter(v -> v.getTime().after(from))
+                .filter(v -> v.getTime().before(till))
+                .filter(v -> v.getText().contains(text))
+                .collect(Collectors.toList());
+        System.out.println(filteredNotes.toString());
+        return filteredNotes.toString();
+    }
+
+    public void remove(String textForDel) throws IOException {
+        notes.removeIf(note -> (note.getText().equals(textForDel)));
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+        writer.writeValue(Paths.get("notes.json").toFile(), notes);
     }
 }
-
