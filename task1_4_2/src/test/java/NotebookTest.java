@@ -8,23 +8,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class NotebookTest {
-
     @Test
     void addTest() throws IOException {
         Notebook note = new Notebook();
         Date date = new Date();
-        note.add(new Note("this is not how it should output",date));
-        String res = note.show();
-        Assertions.assertEquals("[\nthis is not how it should output " + new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss").format(date) + "\n]", res);
+        note.add(new Note("test", "this is not how it should output", date));
+        String res = note.show().toString();
+        Assertions.assertEquals("[\nTitle: test\nNote: this is not how it should output\nTime: " + new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss").format(date) + "\n]", res);
+        note.remove("test");
     }
 
 
     @Test
     void delTest() throws IOException {
         Notebook note = new Notebook();
-        note.add("this is not how it should output");
+        note.add("this is not how it should output", "aaaa");
         note.remove("this is not how it should output");
-        String res = note.show();
+        String res = note.show().toString();
         Assertions.assertEquals("[]", res);
     }
 
@@ -32,25 +32,37 @@ public class NotebookTest {
     void someDel() throws IOException {
         Notebook note = new Notebook();
         Date date = new Date();
-        note.add("this is not how it should output");
-        note.add("testing");
+        note.add(new Note("test", "this is not how it should output", date));
+        note.add("testing", "test1");
         note.remove("testing");
-        Assertions.assertEquals("[\nthis is not how it should output " + new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss").format(date) + "\n]", note.show());
+        String res = note.show().toString();
+        Assertions.assertEquals("[\nTitle: test\nNote: this is not how it should output\nTime: " + new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss").format(date) + "\n]", res);
+        note.remove("test");
+
     }
 
     @Test
     void showFromTill() throws IOException {
         Notebook notebook = new Notebook();
-        notebook.add(new Note("text1", new Date(System.currentTimeMillis() - 864000000)));
-        notebook.add(new Note("text2", new Date(System.currentTimeMillis() - 464000000)));
-        notebook.add(new Note("text3", new Date(System.currentTimeMillis() - 264000000)));
-        notebook.add(new Note("text4", new Date(System.currentTimeMillis() - 86400000)));
-        notebook.add(new Note("text5", new Date(System.currentTimeMillis())));
-        notebook.add(new Note("text6", new Date(System.currentTimeMillis() + 86400000)));
-        notebook.add(new Note("text7", new Date(System.currentTimeMillis() + 864000000)));
-        String res = notebook.show(new Date(System.currentTimeMillis() - 464000000), new Date(System.currentTimeMillis() + 864000000), "text5");
-        System.out.println(res);
-        Assertions.assertEquals("[\ntext5 " + new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss").format(new Date()) + "\n]", res);
+        Date date = new Date();
+        notebook.add(new Note("test1", "text1", new Date(System.currentTimeMillis() - 864000000)));
+        notebook.add(new Note("test2", "text2", new Date(System.currentTimeMillis() - 464000000)));
+        notebook.add(new Note("test3", "text3", new Date(System.currentTimeMillis() - 264000000)));
+        notebook.add(new Note("test", "this is not how it should output", new Date(System.currentTimeMillis())));
+        notebook.add(new Note("test5", "text5", new Date(System.currentTimeMillis() + 123)));
+        notebook.add(new Note("test6", "text6", new Date(System.currentTimeMillis() + 86400000)));
+        notebook.add(new Note("test7", "text7", new Date(System.currentTimeMillis() + 864000000)));
+        String[] arr = {"test123", "test", "asdfasda"};
+        String result = notebook.show(new Date(System.currentTimeMillis() - 864000001), new Date(System.currentTimeMillis() + 864000001), arr).toString();
+        Assertions.assertEquals("[\nTitle: test\nNote: this is not how it should output\nTime: " + new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss").format(date) + "\n]", result);
+        notebook.remove("test");
+        notebook.remove("test1");
+        notebook.remove("test2");
+        notebook.remove("test3");
+        notebook.remove("test5");
+        notebook.remove("test6");
+        notebook.remove("test7");
+
     }
 
 }
