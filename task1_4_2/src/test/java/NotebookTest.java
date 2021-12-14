@@ -12,9 +12,11 @@ public class NotebookTest {
     void addTest() throws IOException {
         Notebook note = new Notebook();
         Date date = new Date();
+        note.setNewNotebookName("aboba");
         note.add(new Note("test", "this is not how it should output", date));
         String res = note.show().toString();
         Assertions.assertEquals("[\nTitle: test\nNote: this is not how it should output\nTime: " + new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm:ss").format(date) + "\n]", res);
+        Assertions.assertEquals("aboba", note.getNotebookName());
         note.remove("test");
     }
 

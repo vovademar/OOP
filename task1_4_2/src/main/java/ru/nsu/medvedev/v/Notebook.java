@@ -9,9 +9,10 @@ import java.util.stream.Collectors;
 public class Notebook {
     private List<Note> notes;
     private FileProcessing fileProcessing;
+    String notebookName = "notes";
 
     public Notebook() {
-        fileProcessing = new FileProcessing();
+        fileProcessing = new FileProcessing(notebookName);
         notes = new ArrayList<>();
         try {
             notes.addAll(fileProcessing.getClassFromFile());
@@ -21,7 +22,27 @@ public class Notebook {
     }
 
     /**
+     * method to set new Notebook name
+     *
+     * @param name - name of file
+     */
+    public void setNewNotebookName(String name) {
+        notebookName = name;
+        fileProcessing = new FileProcessing(name);
+    }
+
+    /**
+     * method to get Notebook name
+     *
+     * @return Notebook name
+     */
+    public String getNotebookName() {
+        return notebookName;
+    }
+
+    /**
      * method to add note to notebook
+     *
      * @param name - name of note
      * @param text - text of note
      * @throws IOException
@@ -34,6 +55,7 @@ public class Notebook {
 
     /**
      * addition method to add note
+     *
      * @param note - note
      * @throws IOException
      */
@@ -44,19 +66,17 @@ public class Notebook {
 
     /**
      * method to show all notes
+     *
      * @return List of notes
      * @throws IOException
      */
     public List<Note> show() throws IOException {
-        List<Note> sortedNotes = fileProcessing.getClassFromFile().stream()
-                .sorted(Comparator.comparing(Note::getTime, Comparator.nullsLast(Comparator.naturalOrder())))
-                .collect(Collectors.toList());
-        System.out.println(sortedNotes.toString());
-        return sortedNotes;
+        return new ArrayList<>(fileProcessing.getClassFromFile());
     }
 
     /**
      * method to show notes from date to date
+     *
      * @param from - date from
      * @param till - date till
      * @param text - names of notes
@@ -75,12 +95,12 @@ public class Notebook {
                         result.add(note);
                     }
                 });
-        System.out.println(result.toString());
         return result;
     }
 
     /**
      * method to remove note from notebook
+     *
      * @param nameForDel - name of note to remove
      * @throws IOException
      */

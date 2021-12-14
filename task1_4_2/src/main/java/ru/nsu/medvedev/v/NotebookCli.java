@@ -27,14 +27,14 @@ public class NotebookCli {
         } else if (cmd.hasOption("show")) {
             String[] optValue = cmd.getOptionValues("show");
             if (optValue == null) {
-                note.show();
+                System.out.println(note.show());
             } else {
                 String sBefore = optValue[0];
                 Date before = new SimpleDateFormat("dd/MM/yyyy").parse(sBefore);
                 String sAfter = optValue[1];
                 Date after = new SimpleDateFormat("dd/MM/yyyy").parse(sAfter);
                 String[] txt = Arrays.copyOfRange(optValue, 2, optValue.length);
-                note.show(before, after, txt);
+                System.out.println(note.show(before, after, txt));
             }
         } else if (cmd.hasOption("help")) {
             System.out.println("Here some instructions for this program:");
