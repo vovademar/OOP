@@ -1,7 +1,8 @@
 package ru.nsu.medvedev.v;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.*;
+import java.util.Arrays;
 
 public class PrimeSearch {
     /**
@@ -59,66 +60,57 @@ public class PrimeSearch {
     /**
      * method to check the array for prime numbers
      *
-     * @param arr array of numbers
+     * @param arrays array of numbers
      * @return true if array has non prime number
      * @return false if array has prime number
-     * @throws InterruptedException
      */
-    public boolean threadPrime(int[] arr) throws InterruptedException {
+    public boolean threadPrime(int[] arrays) {
         int threadsCount = Runtime.getRuntime().availableProcessors();
-        int repeats = arr.length / threadsCount;
-        int sizeOfa = arr.length;
-        int count = 0;
-        int val = 0;
-        for (int i = 0; i <= threadsCount - 1; i++) {
-            Thread searcher;
-            if (i == threadsCount - 1) {
-                Searcher foo = new Searcher(i * repeats, sizeOfa - 1, arr, count);
-                searcher = new Thread(foo);
-                searcher.start();
-                searcher.join();
-                val += foo.getCountOfPrimes();
-            } else {
-                Searcher foo1 = new Searcher(i * repeats, i * repeats + repeats - 1, arr, count);
-                searcher = new Thread(foo1);
-                searcher.start();
-                searcher.join();
-                val += foo1.getCountOfPrimes();
-            }
-            if (val > 0) {
-                return false;
+        List<Integer> arr = Arrays.stream(arrays).boxed().collect(Collectors.toList());
+        int repeats = arr.size() / threadsCount;
+        Searcher[] threads = new Searcher[threadsCount];
+
+        for (int i = 0; i < threadsCount; i++) {
+            threads[i] = new Searcher(arr.subList(i * repeats, (i + 1) * repeats));
+            threads[i].start();
+        }
+
+        for (int i = 0; i < threadsCount; i++) {
+            try {
+                threads[i].join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
-        return true;
+        return new Searcher().getRes();
     }
 
-    public class Searcher implements Runnable {
-        private int startIndex;
-        private int endIndex;
-        private int[] arrayToSearchIn;
-        private int countOfPrimes;
+    public class Searcher extends Thread {
+        List<Integer> arr;
+        public boolean res = false;
 
-        public Searcher(int s, int e, int[] a, int count) {
-            startIndex = s;
-            endIndex = e;
-            arrayToSearchIn = a;
-            countOfPrimes = count;
+        Searcher(List<Integer> someArr) {
+            arr = someArr;
         }
 
+        Searcher() {
+        }
+
+        @Override
         public void run() {
-            for (int i = startIndex; i <= endIndex; i++) {
-                if (isPrime(arrayToSearchIn[i])) {
-                    setCountOfPrimes(1);
+            for (Integer num : arr) {
+                if (isPrime(num)) {
+                    setRes(true);
                 }
             }
         }
 
-        public void setCountOfPrimes(int countOfPrimes) {
-            this.countOfPrimes = countOfPrimes;
+        public void setRes(boolean res) {
+            this.res = res;
         }
 
-        public int getCountOfPrimes() {
-            return countOfPrimes;
+        public boolean getRes() {
+            return res;
         }
     }
 }
