@@ -1,4 +1,5 @@
 package ru.nsu.medvedev.v.performanceTest;
+
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.junit.jupiter.api.Test;
@@ -69,7 +70,7 @@ public class PerformanceTest {
             int[] array = createArray(size);
             long time = singleTestForArr(array);
             series1.add(size, time);
-            time = singleTestForThread( array);
+            time = singleTestForThread(array);
             series2.add(size, time);
             time = singleTestForStream(array);
             series3.add(size, time);

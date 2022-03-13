@@ -1,26 +1,26 @@
 package ru.nsu.medvedev.v;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-
 
 public class PrimeTest {
     PrimeSearch primeSearch;
+
     @BeforeEach
-    public void initEach(){
+    public void initEach() {
         primeSearch = new PrimeSearch();
     }
+
     @Test
     public void arrTest() {
         int arr[] = {1, 2, 3, 4, 5, 6, 7, 8};
         PrimeSearch primeSearch = new PrimeSearch();
         Assertions.assertTrue(primeSearch.arrPrime(arr));
     }
+
     @Test
     public void arrTestLargeNum() {
         int[] arr = {1073676287};
@@ -28,7 +28,7 @@ public class PrimeTest {
     }
 
     @Test
-    public void arrSearchLarge() throws ExecutionException, InterruptedException {
+    public void arrSearchLarge() {
         int size = 1000000;
         int[] array = new int[size];
         Arrays.fill(array, 0, size, 1877);
@@ -37,7 +37,7 @@ public class PrimeTest {
 
     @Test
     public void streamTestFalse() {
-        int arr[] = {7,7,7};
+        int arr[] = {7, 7, 7};
         PrimeSearch primeSearch = new PrimeSearch();
         Assertions.assertFalse(primeSearch.streamPrime(arr));
     }
@@ -57,7 +57,7 @@ public class PrimeTest {
     }
 
     @Test
-    public void streamSearchLarge() throws ExecutionException, InterruptedException {
+    public void streamSearchLarge() {
         int size = 1000000;
         int[] array = new int[size];
         Arrays.fill(array, 0, size, 1877);
@@ -65,14 +65,14 @@ public class PrimeTest {
     }
 
     @Test
-    public void threadTest() throws ExecutionException, InterruptedException {
-        int arr[] = {7,7,7};
+    public void threadTest() {
+        int arr[] = {7, 7, 7};
         PrimeSearch primeSearch = new PrimeSearch();
         Assertions.assertFalse(primeSearch.threadPrime(arr));
     }
 
     @Test
-    public void threadSearchLarge() throws ExecutionException, InterruptedException {
+    public void threadSearchLarge() {
         int size = 1000000;
         int[] array = new int[size];
         Arrays.fill(array, 0, size, 1877);
@@ -80,10 +80,10 @@ public class PrimeTest {
     }
 
     @Test
-    public void threadTrue() throws ExecutionException, InterruptedException {
-        int size = 1000000;
-        int[] array = new int[size];
-        Arrays.fill(array, 0, size, 1878);
-        Assertions.assertTrue(primeSearch.threadPrime(array));
+    public void threadTrue() {
+        int arr[] = {7, 7, 7, 8};
+        PrimeSearch primeSearch = new PrimeSearch();
+        Assertions.assertFalse(primeSearch.threadPrime(arr));
     }
+
 }
