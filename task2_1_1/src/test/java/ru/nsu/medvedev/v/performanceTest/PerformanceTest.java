@@ -2,7 +2,6 @@ package ru.nsu.medvedev.v.performanceTest;
 
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.junit.jupiter.api.Test;
 import ru.nsu.medvedev.v.PrimeSearch;
 
 import java.io.IOException;
@@ -59,7 +58,6 @@ public class PerformanceTest {
         return Collections.min(results);
     }
 
-    @Test
     public void performanceTest() throws ExecutionException, InterruptedException, IOException {
         XYSeriesCollection dataset = new XYSeriesCollection();
         XYSeries series1 = new XYSeries("NotPrimeSearch");
@@ -81,5 +79,10 @@ public class PerformanceTest {
         dataset.addSeries(series3);
         LineChart chart = new LineChart(dataset);
         chart.createFile();
+    }
+
+    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+        PerformanceTest performanceTest = new PerformanceTest();
+        performanceTest.performanceTest();
     }
 }
