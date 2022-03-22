@@ -80,10 +80,11 @@ public class PrimeTest {
     }
 
     @Test
-    public void threadTrue() {
-        int arr[] = {7, 7, 7, 8};
-        PrimeSearch primeSearch = new PrimeSearch();
-        Assertions.assertFalse(primeSearch.threadPrime(arr));
+    public void threadSearch(){
+        int size = 100000;
+        int[] array = new int[size];
+        Arrays.fill(array, 0, size, 25253);
+        Assertions.assertFalse(primeSearch.threadPrime(array));
     }
 
 }
