@@ -66,25 +66,24 @@ public class PrimeTest {
 
     @Test
     public void threadTest() {
-        int arr[] = {7, 7, 7};
+        int arr[] = {7, 7, 7, 7, 7, 7, 7, 7, 7};
         PrimeSearch primeSearch = new PrimeSearch();
         Assertions.assertFalse(primeSearch.threadPrime(arr));
     }
 
     @Test
     public void threadSearchLarge() {
-        int size = 1000000;
+        int size = 100000;
         int[] array = new int[size];
         Arrays.fill(array, 0, size, 1877);
         Assertions.assertFalse(primeSearch.threadPrime(array));
     }
 
     @Test
-    public void threadSearch(){
-        int size = 100000;
-        int[] array = new int[size];
-        Arrays.fill(array, 0, size, 25253);
-        Assertions.assertFalse(primeSearch.threadPrime(array));
+    public void threadTestTrue() {
+        int arr[] = {7, 7, 7, 8, 8, 8, 8, 8, 8};
+        PrimeSearch primeSearch = new PrimeSearch();
+        Assertions.assertTrue(primeSearch.threadPrime(arr));
     }
 
 }
