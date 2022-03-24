@@ -68,6 +68,7 @@ public class PrimeSearch {
         int threadsCount = Runtime.getRuntime().availableProcessors();
         List<Integer> arr = Arrays.stream(arrays).boxed().collect(Collectors.toList());
         int repeats = arr.size() / threadsCount;
+        Searcher searcher = new Searcher();
         Searcher[] threads = new Searcher[threadsCount];
 
         for (int i = 0; i < threadsCount; i++) {
@@ -82,7 +83,14 @@ public class PrimeSearch {
                 e.printStackTrace();
             }
         }
-        return new Searcher().getRes();
+        boolean result = false;
+        for (int i = 0; i < threadsCount; i++) {
+            if (!threads[i].getRes()) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
     public class Searcher extends Thread {
