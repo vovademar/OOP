@@ -10,7 +10,8 @@ public class Food {
     private Image foodImage;
     private int foodX;
     private int foodY;
-    List<Point> snakeBody = new Snake().getSnakeBody();
+    Snake snake = new Snake();
+    List<Point> snakeBody = snake.getSnakeBody();
     Field field = new Field();
 
     public Image getFoodImage() {
@@ -38,32 +39,29 @@ public class Food {
     }
 
     public void generateFood() {
-        //start:
-       // while (true) {
+        start:
+        while (true) {
             setFoodX((int) (Math.random() * field.getROWS()));
             setFoodY((int) (Math.random() * field.getCOLUMNS()));
             System.out.println(getFoodX());
             System.out.println(getFoodY());
             System.out.println(" ");
 
-//            for (Point snake : snakeBody) {
-//                if (snake.getX() == foodX && snake.getY() == foodY) {
-//                    continue start;
-//                }
-//            }
-          //  break;
-       // }
-//        int[] mas = {0,0};
-//        mas[0] = foodX;
-//        mas[1] = foodY;
-//        return mas;
+            for (Point snake : snakeBody) {
+                if (snake.getX() == foodX && snake.getY() == foodY) {
+                    continue start;
+                }
+            }
+            break;
+        }
     }
 
     public void drawFood(GraphicsContext gc) {
-        //int [] coords = generateFood();
         Image image = new Image(String.valueOf(getClass().getResource("apple.png")));
         System.out.println(getFoodX() * field.getSQUARE_SIZE());
         System.out.println(getFoodY() * field.getSQUARE_SIZE());
         gc.drawImage(image, (getFoodX() * field.getSQUARE_SIZE()) - 5, (getFoodY() * field.getSQUARE_SIZE()) - 5);
     }
+
+
 }

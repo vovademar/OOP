@@ -3,15 +3,15 @@ package nsu.medvedev.v.snake;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -23,12 +23,12 @@ import static nsu.medvedev.v.snake.Direction.*;
 public class Application extends javafx.application.Application {
     Direction currentDirection = UP;
     Food food = new Food();
+    Snake snake = new Snake();
+    Field field = new Field();
 
 
     @Override
     public void start(Stage stage) throws IOException {
-        // FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        // Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         Group root = new Group();
         Canvas canvas = new Canvas(800, 800);
         InputStream iconStream = getClass().getResourceAsStream("snake.png");
@@ -41,53 +41,47 @@ public class Application extends javafx.application.Application {
         stage.setScene(scene);
         stage.show();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        Field field = new Field();
-        Snake snake = new Snake();
 
-//        for (int i = 0; i < 3; i++) {
-//            snake.getSnakeBody().add(new Point(5, field.getROWS() / 2));
-//        }
-
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                KeyCode code = event.getCode();
-                if (code == KeyCode.RIGHT || code == KeyCode.D) {
-                    if (currentDirection != LEFT) {
-                        currentDirection = RIGHT;
-                    }
-                } else if (code == KeyCode.LEFT || code == KeyCode.A) {
-                    if (currentDirection != RIGHT) {
-                        currentDirection = LEFT;
-                    }
-                } else if (code == KeyCode.UP || code == KeyCode.W) {
-                    if (currentDirection != DOWN) {
-                        currentDirection = UP;
-                    }
-                } else if (code == KeyCode.DOWN || code == KeyCode.S) {
-                    if (currentDirection != UP) {
-                        currentDirection = DOWN;
-                    }
+        scene.setOnKeyPressed(event -> {
+            KeyCode code = event.getCode();
+            if (code == KeyCode.RIGHT || code == KeyCode.D) {
+                if (currentDirection != LEFT) {
+                    currentDirection = RIGHT;
+                }
+            } else if (code == KeyCode.LEFT || code == KeyCode.A) {
+                if (currentDirection != RIGHT) {
+                    currentDirection = LEFT;
+                }
+            } else if (code == KeyCode.UP || code == KeyCode.W) {
+                if (currentDirection != DOWN) {
+                    currentDirection = UP;
+                }
+            } else if (code == KeyCode.DOWN || code == KeyCode.S) {
+                if (currentDirection != UP) {
+                    currentDirection = DOWN;
                 }
             }
         });
 
-        Point head = snake.getSnakeHead();
-        //head = snake.getSnakeBody().get(0);
-        //Food food = new Food();
         food.generateFood();
         //run(gc);
-
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(130), e -> run(gc)));
+        snake.initSnake();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(120), e -> run(gc)));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
     private void run(GraphicsContext gc) {
-        Snake snake = new Snake();
-        Field field = new Field();
+        if (snake.isGameOver()) {
+            gc.setFill(Color.web("E73213"));
+            gc.setFont(new Font("BOLD", 70));
+            System.out.println("gg");
+            gc.fillText("Game Over", field.getWIDTH() / 3.5, field.getHEIGHT() / 2.0);
+            return;
+        }
         field.drawBackground(gc);
         food.drawFood(gc);
+
         snake.drawSnake(gc);
 
         for (int i = snake.getSnakeBody().size() - 1; i >= 1; i--) {
@@ -96,20 +90,22 @@ public class Application extends javafx.application.Application {
         }
 
         switch (currentDirection) {
-            case RIGHT:
-                snake.moveRight();
-                break;
-            case LEFT:
-                snake.moveLeft();
-                break;
-            case UP:
-                snake.moveUp();
-                break;
-            case DOWN:
-                snake.moveDown();
-                break;
+            case RIGHT -> snake.moveRight();
+            case LEFT -> snake.moveLeft();
+            case UP -> snake.moveUp();
+            case DOWN -> snake.moveDown();
         }
 
+        eatFood();
+        snake.gameOver();
+    }
+
+    public void eatFood() {
+        if (snake.getSnakeHead().getX() == food.getFoodX() && snake.getSnakeHead().getY() == food.getFoodY()) {
+            snake.getSnakeBody().add(new Point(-1, -1));
+            food.generateFood();
+            //score += 5;
+        }
     }
 
 

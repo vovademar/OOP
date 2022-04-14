@@ -1,15 +1,7 @@
 package nsu.medvedev.v.snake;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Light;
 import javafx.scene.paint.Color;
-import javafx.scene.image.Image;
-
-import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Field {
     private final int WIDTH;
