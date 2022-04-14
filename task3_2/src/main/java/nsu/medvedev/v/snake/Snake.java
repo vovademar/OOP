@@ -14,6 +14,9 @@ public class Snake {
     boolean gameOver;
     Field field = new Field();
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
 
     Snake() {
         List<Point> snakeBody = new ArrayList<>();
@@ -42,7 +45,6 @@ public class Snake {
     }
 
     public void drawSnake(GraphicsContext gc) {
-        initSnake();
         gc.setFill(Color.web("4674E9"));
         gc.fillRoundRect(snakeHead.getX() * field.getSQUARE_SIZE(), snakeHead.getY() * field.getSQUARE_SIZE(), field.getSQUARE_SIZE() - 1, field.getSQUARE_SIZE() - 1, 35, 35);
 
@@ -52,7 +54,7 @@ public class Snake {
         }
     }
 
-    private void initSnake() {
+    public void initSnake() {
         for (int i = 0; i < 3; i++) {
             snakeBody.add(new Point(5, field.getROWS() / 2));
         }
@@ -80,7 +82,6 @@ public class Snake {
             gameOver = true;
         }
 
-        //destroy itself
         for (int i = 1; i < snakeBody.size(); i++) {
             if (snakeHead.x == snakeBody.get(i).getX() && snakeHead.getY() == snakeBody.get(i).getY()) {
                 gameOver = true;
