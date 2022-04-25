@@ -25,7 +25,7 @@ public class Application extends javafx.application.Application {
     Food food = new Food();
     Snake snake = new Snake();
     Field field = new Field();
-
+    GraphicWork graphicWork = new GraphicWork();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -79,10 +79,10 @@ public class Application extends javafx.application.Application {
             gc.fillText("Game Over", field.getWIDTH() / 3.5, field.getHEIGHT() / 2.0);
             return;
         }
-        field.drawBackground(gc);
-        food.drawFood(gc);
+        graphicWork.drawBackground(gc);
+        graphicWork.drawFood(gc, food.getFoodX(), food.getFoodY());
 
-        snake.drawSnake(gc);
+        graphicWork.drawSnake(gc, snake.getSnakeHead(), snake.getSnakeBody());
 
         for (int i = snake.getSnakeBody().size() - 1; i >= 1; i--) {
             snake.getSnakeBody().get(i).x = snake.getSnakeBody().get(i - 1).x;
@@ -104,7 +104,6 @@ public class Application extends javafx.application.Application {
         if (snake.getSnakeHead().getX() == food.getFoodX() && snake.getSnakeHead().getY() == food.getFoodY()) {
             snake.getSnakeBody().add(new Point(-1, -1));
             food.generateFood();
-            //score += 5;
         }
     }
 

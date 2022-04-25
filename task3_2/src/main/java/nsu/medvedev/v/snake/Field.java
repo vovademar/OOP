@@ -1,8 +1,5 @@
 package nsu.medvedev.v.snake;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
 public class Field {
     private final int WIDTH;
     private final int HEIGHT;
@@ -47,20 +44,5 @@ public class Field {
     public int getSQUARE_SIZE() {
         return SQUARE_SIZE;
     }
-
-
-    public void drawBackground(GraphicsContext gc) {
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLUMNS; j++) {
-                if ((i + j) % 2 == 0) {
-                    gc.setFill(Color.web("31BF2C"));
-                } else {
-                    gc.setFill(Color.web("18C812"));
-                }
-                gc.fillRect(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-            }
-        }
-    }
-
 
 }
