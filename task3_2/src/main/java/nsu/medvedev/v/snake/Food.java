@@ -1,8 +1,5 @@
 package nsu.medvedev.v.snake;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-
 import java.awt.*;
 import java.util.List;
 
@@ -55,13 +52,5 @@ public class Food {
             break;
         }
     }
-
-    public void drawFood(GraphicsContext gc) {
-        Image image = new Image(String.valueOf(getClass().getResource("apple.png")));
-        System.out.println(getFoodX() * field.getSQUARE_SIZE());
-        System.out.println(getFoodY() * field.getSQUARE_SIZE());
-        gc.drawImage(image, (getFoodX() * field.getSQUARE_SIZE()) - 5, (getFoodY() * field.getSQUARE_SIZE()) - 5);
-    }
-
 
 }

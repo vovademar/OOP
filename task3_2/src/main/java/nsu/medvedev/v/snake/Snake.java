@@ -1,17 +1,13 @@
 package nsu.medvedev.v.snake;
 
-import javafx.scene.canvas.GraphicsContext;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.paint.Color;
-
 public class Snake {
     public List<Point> snakeBody = new ArrayList<>();
     private Point snakeHead;
-    boolean gameOver;
+    public boolean gameOver;
     Field field = new Field();
 
     public boolean isGameOver() {
@@ -42,16 +38,6 @@ public class Snake {
 
     public void setSnakeBody(List<Point> snakeBody) {
         this.snakeBody = snakeBody;
-    }
-
-    public void drawSnake(GraphicsContext gc) {
-        gc.setFill(Color.web("4674E9"));
-        gc.fillRoundRect(snakeHead.getX() * field.getSQUARE_SIZE(), snakeHead.getY() * field.getSQUARE_SIZE(), field.getSQUARE_SIZE() - 1, field.getSQUARE_SIZE() - 1, 35, 35);
-
-        for (int i = 1; i < snakeBody.size(); i++) {
-            gc.fillRoundRect(snakeBody.get(i).getX() * field.getSQUARE_SIZE(), snakeBody.get(i).getY() * field.getSQUARE_SIZE(), field.getSQUARE_SIZE() - 1,
-                    field.getSQUARE_SIZE() - 1, 20, 20);
-        }
     }
 
     public void initSnake() {
