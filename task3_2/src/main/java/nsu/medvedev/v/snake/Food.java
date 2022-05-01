@@ -4,20 +4,10 @@ import java.awt.*;
 import java.util.List;
 
 public class Food {
-    private Image foodImage;
     private int foodX;
     private int foodY;
-    Snake snake = new Snake();
-    List<Point> snakeBody = snake.getSnakeBody();
     Field field = new Field();
 
-    public Image getFoodImage() {
-        return foodImage;
-    }
-
-    public void setFoodImage(Image foodImage) {
-        this.foodImage = foodImage;
-    }
 
     public int getFoodX() {
         return foodX;
@@ -35,7 +25,7 @@ public class Food {
         this.foodY = foodY;
     }
 
-    public void generateFood() {
+    public void generateFood(List<Point> snakeBody) {
         start:
         while (true) {
             setFoodX((int) (Math.random() * field.getROWS()));
@@ -44,13 +34,20 @@ public class Food {
             System.out.println(getFoodY());
             System.out.println(" ");
 
-            for (Point snake : snakeBody) {
-                if (snake.getX() == foodX && snake.getY() == foodY) {
+            for (int i = 0; i < snakeBody.size(); i++) {
+                Point snake = snakeBody.get(i);
+                if (snake.getX() == getFoodX() && snake.getY() == getFoodY()) {
                     continue start;
                 }
             }
             break;
         }
     }
+
+    public void generateFood() {
+        setFoodX((int) (Math.random() * field.getROWS()));
+        setFoodY((int) (Math.random() * field.getCOLUMNS()));
+    }
+
 
 }
