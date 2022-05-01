@@ -5,18 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Snake {
-    public List<Point> snakeBody = new ArrayList<>();
+    private List<Point> snakeBody = new ArrayList<>();
     private Point snakeHead;
-    public boolean gameOver;
     Field field = new Field();
 
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
     Snake() {
-        List<Point> snakeBody = new ArrayList<>();
-        Point snakeHead;
     }
 
     Snake(List<Point> snakeBody, Point snakeHead) {
@@ -40,40 +33,39 @@ public class Snake {
         this.snakeBody = snakeBody;
     }
 
+
     public void initSnake() {
-        for (int i = 0; i < 3; i++) {
-            snakeBody.add(new Point(5, field.getROWS() / 2));
-        }
+        snakeBody.add(new Point(5, field.getROWS() / 2));
         snakeHead = snakeBody.get(0);
     }
 
-    void moveRight() {
+    public void moveRight() {
         snakeHead.x++;
     }
 
-    void moveLeft() {
+    public void moveLeft() {
         snakeHead.x--;
     }
 
-    void moveUp() {
+    public void moveUp() {
         snakeHead.y--;
     }
 
-    void moveDown() {
+    public void moveDown() {
         snakeHead.y++;
     }
 
-    public void gameOver() {
+    public boolean gameOver() {
         if (snakeHead.x < 0 || snakeHead.y < 0 || snakeHead.x * field.getSQUARE_SIZE() >= field.getWIDTH() || snakeHead.y * field.getSQUARE_SIZE() >= field.getHEIGHT()) {
-            gameOver = true;
+            return true;
         }
 
         for (int i = 1; i < snakeBody.size(); i++) {
             if (snakeHead.x == snakeBody.get(i).getX() && snakeHead.getY() == snakeBody.get(i).getY()) {
-                gameOver = true;
-                break;
+                return true;
             }
         }
+        return false;
     }
 
 }

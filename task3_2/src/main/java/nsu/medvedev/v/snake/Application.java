@@ -72,7 +72,7 @@ public class Application extends javafx.application.Application {
     }
 
     private void run(GraphicsContext gc) {
-        if (snake.isGameOver()) {
+        if (snake.gameOver()) {
             gc.setFill(Color.web("E73213"));
             gc.setFont(new Font("BOLD", 70));
             System.out.println("gg");
@@ -103,7 +103,7 @@ public class Application extends javafx.application.Application {
     public void eatFood() {
         if (snake.getSnakeHead().getX() == food.getFoodX() && snake.getSnakeHead().getY() == food.getFoodY()) {
             snake.getSnakeBody().add(new Point(-1, -1));
-            food.generateFood();
+            food.generateFood(snake.getSnakeBody());
         }
     }
 
