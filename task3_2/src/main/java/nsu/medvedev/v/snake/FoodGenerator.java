@@ -16,7 +16,7 @@ public class FoodGenerator {
 
     int foodOnField;
     int foodGenerated = 0;
-    int foodNeeded = 6;
+    int foodNeeded = 23;
     private int foodX;
     private int foodY;
     List<Point> foodList = new ArrayList<>();
@@ -68,38 +68,55 @@ public class FoodGenerator {
     public void setFoodList(List<Point> foodList) {
         this.foodList = foodList;
     }
-    public void erase(int i){
+
+    public void eraseElemFromFoodList(int i) {
         foodList.remove(i);
     }
 
-    //todo: разобраться с этой суетой
-    public void generateFood(List<Point> snakeBody, int rows, int columns) {
-        System.out.println(666);
+    public void generateFood(List<Point> snakeBody, int rows, int columns, List<Point> barriers) {
         while (foodGenerated < foodNeeded) {
-            System.out.println(777);
-            for(int i = foodList.size(); i < foodOnField; i++) {
-                System.out.println(888);
+            for (int i = foodList.size(); i < foodOnField; i++) {
                 setFoodX((int) (Math.random() * rows));
                 setFoodY((int) (Math.random() * columns));
-                int x = (int) foodX;
-                int y = (int) foodY;
-                foodList.add(new Point(x,y));
-                System.out.println(999);
+                int x = foodX;
+                int y = foodY;
+                for (int j = 0; j < foodList.size(); j++) {
+                    if (x == foodList.get(j).getX() && foodList.get(j).getY() == y) {
+                        x = ((int) (Math.random() * rows));
+                        y = ((int) (Math.random() * columns));
+                    }
+                }
+                foodList.add(new Point(x, y));
             }
 
+            for (int i = 0; i < foodOnField; i++) {
+                for (int j = 0; j < barriers.size(); j++) {
+                    if (foodList.get(i).getX() == barriers.get(j).getX() && foodList.get(i).getY() == barriers.get(j).getY()) {
+                        int newX = ((int) (Math.random() * rows));
+                        int newY = ((int) (Math.random() * columns));
+                        while (newX == barriers.get(j).getX() && newY == barriers.get(j).getY()){
+                            newX = ((int) (Math.random() * rows));
+                            newY = ((int) (Math.random() * columns));
+                        }
+                        foodList.set(i, new Point(newX, newY));
+
+                    }
+                }
+            }
 
             for (int i = 0; i < snakeBody.size(); i++) {
-                System.out.println(101010);
                 Point snake = snakeBody.get(i);
-                System.out.println(11);
-                for(int j = 0; j < foodOnField; j++){
-                    //System.out.println(11);
+                for (int j = 0; j < foodOnField; j++) {
 
                     if (snake.getX() == foodList.get(j).getX() && snake.getY() == foodList.get(j).getY()) {
-                        int newX = (int) (Math.random() * rows);
-                        int newY = (int) (Math.random() * columns);
-                        foodList.set(j,new Point(newX, newY));
-                        System.out.println(12);
+
+                        int newX = ((int) (Math.random() * rows));
+                        int newY = ((int) (Math.random() * columns));
+                        while (newX == barriers.get(j).getX() && newY == barriers.get(j).getY() && snake.getX() == newX && snake.getY() == newY){
+                            newX = ((int) (Math.random() * rows));
+                            newY = ((int) (Math.random() * columns));
+                        }
+                        foodList.set(j, new Point(newX, newY));
                     }
 
                 }
@@ -107,14 +124,5 @@ public class FoodGenerator {
             foodGenerated++;
             break;
         }
-        System.out.println(foodGenerated);
-        System.out.println(foodList + "asdasd");
     }
-
-//    public void generateFood(int rows, int columns) {
-//        setFoodX((int) (Math.random() * rows));
-//        setFoodY((int) (Math.random() * columns));
-//    }
-
-
 }
