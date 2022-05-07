@@ -22,7 +22,7 @@ import static nsu.medvedev.v.snake.Direction.*;
 
 public class Application extends javafx.application.Application {
     Direction currentDirection = UP;
-    Food food = new Food();
+    FoodGenerator foodGenerator = new FoodGenerator();
     Snake snake = new Snake();
     Field field = new Field();
     GraphicWork graphicWork = new GraphicWork();
@@ -63,26 +63,35 @@ public class Application extends javafx.application.Application {
             }
         });
 
-        food.generateFood();
+        foodGenerator.generateFood(snake.getSnakeBody(), field.getROWS(), field.getCOLUMNS());
         //run(gc);
-        snake.initSnake();
+        snake.initSnake(field.getROWS());
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(120), e -> run(gc)));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
     private void run(GraphicsContext gc) {
-        if (snake.gameOver()) {
+        if (snake.isGameOver(field.getSQUARE_SIZE(), field.getWIDTH(), field.getHEIGHT())) {
             gc.setFill(Color.web("E73213"));
             gc.setFont(new Font("BOLD", 70));
             System.out.println("gg");
             gc.fillText("Game Over", field.getWIDTH() / 3.5, field.getHEIGHT() / 2.0);
             return;
         }
-        graphicWork.drawBackground(gc);
-        graphicWork.drawFood(gc, food.getFoodX(), food.getFoodY());
+        if (victory()) {
+            gc.setFill(Color.web("E73213"));
+            gc.setFont(new Font("BOLD", 70));
+            System.out.println("gg");
+            gc.fillText("You win!", field.getWIDTH() / 3.5, field.getHEIGHT() / 2.0);
+            return;
 
-        graphicWork.drawSnake(gc, snake.getSnakeHead(), snake.getSnakeBody());
+        }
+        graphicWork.drawBackground(gc, field.getROWS(), field.getCOLUMNS(), field.getSQUARE_SIZE());
+        graphicWork.drawFood(gc, foodGenerator.getFoodX(), foodGenerator.getFoodY(), field.getSQUARE_SIZE(), foodGenerator.getFoodList());
+        eatFood();
+
+        graphicWork.drawSnake(gc, snake.getSnakeHead(), snake.getSnakeBody(), field.getSQUARE_SIZE());
 
         for (int i = snake.getSnakeBody().size() - 1; i >= 1; i--) {
             snake.getSnakeBody().get(i).x = snake.getSnakeBody().get(i - 1).x;
@@ -96,14 +105,25 @@ public class Application extends javafx.application.Application {
             case DOWN -> snake.moveDown();
         }
 
-        eatFood();
-        snake.gameOver();
+    }
+
+    public boolean victory() {
+        return foodGenerator.getFoodGenerated() == foodGenerator.getFoodNeeded();
     }
 
     public void eatFood() {
-        if (snake.getSnakeHead().getX() == food.getFoodX() && snake.getSnakeHead().getY() == food.getFoodY()) {
-            snake.getSnakeBody().add(new Point(-1, -1));
-            food.generateFood(snake.getSnakeBody());
+        System.out.println(1111);
+        for (int i = 0; i < foodGenerator.getFoodOnField(); i++) {
+            if (snake.getSnakeHead().getX() == foodGenerator.getFoodList().get(i).getX() && snake.getSnakeHead().getY() == foodGenerator.getFoodList().get(i).getY()) {
+                System.out.println(22222);
+                snake.getSnakeBody().add(new Point(-1, -1));
+                System.out.println(333333);
+                foodGenerator.erase(i);
+                System.out.println(44444);
+
+                foodGenerator.generateFood(snake.getSnakeBody(), field.getROWS(), field.getCOLUMNS());
+                System.out.println(55555);
+            }
         }
     }
 
