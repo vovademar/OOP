@@ -7,7 +7,6 @@ import java.util.List;
 public class Snake {
     private List<Point> snakeBody = new ArrayList<>();
     private Point snakeHead;
-    Field field = new Field();
 
     Snake() {
     }
@@ -34,8 +33,8 @@ public class Snake {
     }
 
 
-    public void initSnake() {
-        snakeBody.add(new Point(5, field.getROWS() / 2));
+    public void initSnake(int rows) {
+        snakeBody.add(new Point(5, rows / 2));
         snakeHead = snakeBody.get(0);
     }
 
@@ -55,8 +54,8 @@ public class Snake {
         snakeHead.y++;
     }
 
-    public boolean gameOver() {
-        if (snakeHead.x < 0 || snakeHead.y < 0 || snakeHead.x * field.getSQUARE_SIZE() >= field.getWIDTH() || snakeHead.y * field.getSQUARE_SIZE() >= field.getHEIGHT()) {
+    public boolean isGameOver(int squareSize, int width, int height) {
+        if (snakeHead.x < 0 || snakeHead.y < 0 || snakeHead.x * squareSize >= width || snakeHead.y * squareSize >= height) {
             return true;
         }
 

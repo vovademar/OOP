@@ -8,35 +8,35 @@ import java.awt.*;
 import java.util.List;
 
 public class GraphicWork {
-    Field field = new Field();
 
-    public void drawBackground(GraphicsContext gc) {
-        for (int i = 0; i < field.getROWS(); i++) {
-            for (int j = 0; j < field.getCOLUMNS(); j++) {
+    public void drawBackground(GraphicsContext gc, int rows, int columns, int squareSize) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 if ((i + j) % 2 == 0) {
                     gc.setFill(Color.web("B7E114"));
                 } else {
                     gc.setFill(Color.web("18C812"));
                 }
-                gc.fillRect(i * field.getSQUARE_SIZE(), j * field.getSQUARE_SIZE(), field.getSQUARE_SIZE(), field.getSQUARE_SIZE());
+                gc.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
             }
         }
     }
 
-    public void drawFood(GraphicsContext gc, int foodX, int foodY) {
+    public void drawFood(GraphicsContext gc, int foodX, int foodY, int squareSize, List<Point> foodList) {
         Image image = new Image(String.valueOf(getClass().getResource("apple.png")));
-        System.out.println(foodX * field.getSQUARE_SIZE());
-        System.out.println(foodY * field.getSQUARE_SIZE());
-        gc.drawImage(image, (foodX * field.getSQUARE_SIZE()) - 5, (foodY * field.getSQUARE_SIZE()) - 5);
+        System.out.println(foodList);
+        for (int j = 0; j < foodList.size(); j++) {
+            gc.drawImage(image, (foodList.get(j).getX() * squareSize) - 5, (foodList.get(j).getY() * squareSize) - 5);
+        }
     }
 
-    public void drawSnake(GraphicsContext gc, Point snakeHead, List<Point> snakeBody) {
+    public void drawSnake(GraphicsContext gc, Point snakeHead, List<Point> snakeBody, int squareSize) {
         gc.setFill(Color.web("4674E9"));
-        gc.fillRoundRect(snakeHead.getX() * field.getSQUARE_SIZE(), snakeHead.getY() * field.getSQUARE_SIZE(), field.getSQUARE_SIZE() - 1, field.getSQUARE_SIZE() - 1, 35, 35);
+        gc.fillRoundRect(snakeHead.getX() * squareSize, snakeHead.getY() * squareSize, squareSize - 1, squareSize - 1, 35, 35);
 
         for (int i = 1; i < snakeBody.size(); i++) {
-            gc.fillRoundRect(snakeBody.get(i).getX() * field.getSQUARE_SIZE(), snakeBody.get(i).getY() * field.getSQUARE_SIZE(), field.getSQUARE_SIZE() - 1,
-                    field.getSQUARE_SIZE() - 1, 20, 20);
+            gc.fillRoundRect(snakeBody.get(i).getX() * squareSize, snakeBody.get(i).getY() * squareSize, squareSize - 1,
+                    squareSize - 1, 20, 20);
         }
     }
 
