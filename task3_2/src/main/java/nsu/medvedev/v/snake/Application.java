@@ -27,6 +27,8 @@ public class Application extends javafx.application.Application {
     Field field = new Field();
     GraphicWork graphicWork = new GraphicWork();
 
+    BarrierGenerator barrierGenerator = new BarrierGenerator();
+
     @Override
     public void start(Stage stage) throws IOException {
         Group root = new Group();
@@ -35,7 +37,7 @@ public class Application extends javafx.application.Application {
         assert iconStream != null;
         Image image = new Image(iconStream);
         stage.getIcons().add(image);
-        stage.setTitle("Hello!");
+        stage.setTitle("Snake game3000!");
         root.getChildren().add(canvas);
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -62,8 +64,8 @@ public class Application extends javafx.application.Application {
                 }
             }
         });
-
-        foodGenerator.generateFood(snake.getSnakeBody(), field.getROWS(), field.getCOLUMNS());
+        barrierGenerator.generateBarriers(field.getROWS(), field.getCOLUMNS(), 16);
+        foodGenerator.generateFood(snake.getSnakeBody(), field.getROWS(), field.getCOLUMNS(), barrierGenerator.getBarriers());
         //run(gc);
         snake.initSnake(field.getROWS());
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(120), e -> run(gc)));
@@ -72,7 +74,7 @@ public class Application extends javafx.application.Application {
     }
 
     private void run(GraphicsContext gc) {
-        if (snake.isGameOver(field.getSQUARE_SIZE(), field.getWIDTH(), field.getHEIGHT())) {
+        if (snake.isGameOver(field.getSQUARE_SIZE(), field.getWIDTH(), field.getHEIGHT(), barrierGenerator.getBarriers())) {
             gc.setFill(Color.web("E73213"));
             gc.setFont(new Font("BOLD", 70));
             System.out.println("gg");
@@ -87,8 +89,11 @@ public class Application extends javafx.application.Application {
             return;
 
         }
+
         graphicWork.drawBackground(gc, field.getROWS(), field.getCOLUMNS(), field.getSQUARE_SIZE());
-        graphicWork.drawFood(gc, foodGenerator.getFoodX(), foodGenerator.getFoodY(), field.getSQUARE_SIZE(), foodGenerator.getFoodList());
+        graphicWork.drawBarriers(gc, field.getSQUARE_SIZE(), barrierGenerator.getBarriers());
+
+        graphicWork.drawFood(gc, field.getSQUARE_SIZE(), foodGenerator.getFoodList());
         eatFood();
 
         graphicWork.drawSnake(gc, snake.getSnakeHead(), snake.getSnakeBody(), field.getSQUARE_SIZE());
@@ -112,21 +117,15 @@ public class Application extends javafx.application.Application {
     }
 
     public void eatFood() {
-        System.out.println(1111);
         for (int i = 0; i < foodGenerator.getFoodOnField(); i++) {
             if (snake.getSnakeHead().getX() == foodGenerator.getFoodList().get(i).getX() && snake.getSnakeHead().getY() == foodGenerator.getFoodList().get(i).getY()) {
-                System.out.println(22222);
                 snake.getSnakeBody().add(new Point(-1, -1));
-                System.out.println(333333);
-                foodGenerator.erase(i);
-                System.out.println(44444);
+                foodGenerator.eraseElemFromFoodList(i);
 
-                foodGenerator.generateFood(snake.getSnakeBody(), field.getROWS(), field.getCOLUMNS());
-                System.out.println(55555);
+                foodGenerator.generateFood(snake.getSnakeBody(), field.getROWS(), field.getCOLUMNS(), barrierGenerator.getBarriers());
             }
         }
     }
-
 
     public static void main(String[] args) {
         launch();

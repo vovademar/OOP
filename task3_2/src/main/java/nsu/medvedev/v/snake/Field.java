@@ -7,7 +7,6 @@ public class Field {
     private final int COLUMNS;
     private final int SQUARE_SIZE;
 
-
     public Field() {
         this.WIDTH = 800;
         this.HEIGHT = 800;

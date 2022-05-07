@@ -54,13 +54,19 @@ public class Snake {
         snakeHead.y++;
     }
 
-    public boolean isGameOver(int squareSize, int width, int height) {
+    public boolean isGameOver(int squareSize, int width, int height, List<Point> barriers) {
         if (snakeHead.x < 0 || snakeHead.y < 0 || snakeHead.x * squareSize >= width || snakeHead.y * squareSize >= height) {
             return true;
         }
 
         for (int i = 1; i < snakeBody.size(); i++) {
             if (snakeHead.x == snakeBody.get(i).getX() && snakeHead.getY() == snakeBody.get(i).getY()) {
+                return true;
+            }
+        }
+
+        for (int i = 0; i < barriers.size(); i++) {
+            if (snakeHead.x == barriers.get(i).getX() && snakeHead.y == barriers.get(i).getY()) {
                 return true;
             }
         }

@@ -9,6 +9,13 @@ import java.util.List;
 
 public class GraphicWork {
 
+    public void drawBarriers(GraphicsContext gc, int squareSize, List<Point> barriers) {
+        gc.setFill(Color.web("000000"));
+        for (int i = 0; i < barriers.size(); i++) {
+            gc.fillRoundRect(barriers.get(i).getX() * squareSize, barriers.get(i).getY() * squareSize, squareSize - 1, squareSize - 1, 20, 20);
+        }
+    }
+
     public void drawBackground(GraphicsContext gc, int rows, int columns, int squareSize) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -22,7 +29,7 @@ public class GraphicWork {
         }
     }
 
-    public void drawFood(GraphicsContext gc, int foodX, int foodY, int squareSize, List<Point> foodList) {
+    public void drawFood(GraphicsContext gc, int squareSize, List<Point> foodList) {
         Image image = new Image(String.valueOf(getClass().getResource("apple.png")));
         System.out.println(foodList);
         for (int j = 0; j < foodList.size(); j++) {
