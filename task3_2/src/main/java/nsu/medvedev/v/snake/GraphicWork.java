@@ -1,7 +1,6 @@
 package nsu.medvedev.v.snake;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
@@ -12,7 +11,7 @@ public class GraphicWork {
     public void drawBarriers(GraphicsContext gc, int squareSize, List<Point> barriers) {
         gc.setFill(Color.web("000000"));
         for (int i = 0; i < barriers.size(); i++) {
-            gc.fillRoundRect(barriers.get(i).getX() * squareSize, barriers.get(i).getY() * squareSize, squareSize - 1, squareSize - 1, 20, 20);
+            gc.fillRoundRect(barriers.get(i).getX() * squareSize, barriers.get(i).getY() * squareSize, squareSize - 1, squareSize - 1, 10, 10);
         }
     }
 
@@ -30,17 +29,15 @@ public class GraphicWork {
     }
 
     public void drawFood(GraphicsContext gc, int squareSize, List<Point> foodList) {
-        Image image = new Image(String.valueOf(getClass().getResource("apple.png")));
-        System.out.println(foodList);
-        for (int j = 0; j < foodList.size(); j++) {
-            gc.drawImage(image, (foodList.get(j).getX() * squareSize) - 5, (foodList.get(j).getY() * squareSize) - 5);
+        gc.setFill(Color.web("FF0000"));
+        for (int i = 0; i < foodList.size(); i++) {
+            gc.fillRoundRect(foodList.get(i).getX() * squareSize, foodList.get(i).getY() * squareSize, squareSize - 1, squareSize - 1, 40, 40);
         }
     }
 
     public void drawSnake(GraphicsContext gc, Point snakeHead, List<Point> snakeBody, int squareSize) {
         gc.setFill(Color.web("4674E9"));
         gc.fillRoundRect(snakeHead.getX() * squareSize, snakeHead.getY() * squareSize, squareSize - 1, squareSize - 1, 35, 35);
-
         for (int i = 1; i < snakeBody.size(); i++) {
             gc.fillRoundRect(snakeBody.get(i).getX() * squareSize, snakeBody.get(i).getY() * squareSize, squareSize - 1,
                     squareSize - 1, 20, 20);

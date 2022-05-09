@@ -5,25 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BarrierGenerator {
-    int barrierX;
-    int barrierY;
-    List<Point> barriers = new ArrayList<>();
+    private List<Point> barriers = new ArrayList<>();
 
+    private int amount;
 
-    public int getBarrierX() {
-        return barrierX;
+    public BarrierGenerator(int amount) {
+        this.amount = amount;
     }
 
-    public void setBarrierX(int barrierX) {
-        this.barrierX = barrierX;
+    public int getAmount() {
+        return amount;
     }
 
-    public int getBarrierY() {
-        return barrierY;
-    }
-
-    public void setBarrierY(int barrierY) {
-        this.barrierY = barrierY;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public List<Point> getBarriers() {
@@ -34,7 +29,7 @@ public class BarrierGenerator {
         this.barriers = barriers;
     }
 
-    public void generateBarriers(int rows, int columns, int amount) {
+    public void generateBarriers(int rows, int columns) {
         for (int i = 0; i < amount; i++) {
 
             int x = ((int) (Math.random() * rows));
@@ -51,7 +46,6 @@ public class BarrierGenerator {
             }
             barriers.add(new Point(x, y));
         }
-        System.out.println(barriers);
     }
 
 

@@ -6,20 +6,16 @@ import java.util.List;
 
 public class FoodGenerator {
 
-    FoodGenerator(int count) {
-        setFoodOnField(count);
-    }
-
-    FoodGenerator() {
-        setFoodOnField(5);
-    }
-
-    int foodOnField;
-    int foodGenerated = 0;
-    int foodNeeded = 23;
+    private List<Point> foodList = new ArrayList<>();
+    private int foodOnField;
+    private int foodGenerated = 0;
+    private int sizeForWin;
     private int foodX;
     private int foodY;
-    List<Point> foodList = new ArrayList<>();
+    public FoodGenerator(int count, int score) {
+        setFoodOnField(count);
+        setSizeForWin(score);
+    }
 
     public int getFoodOnField() {
         return foodOnField;
@@ -33,16 +29,12 @@ public class FoodGenerator {
         return foodGenerated;
     }
 
-    public void setFoodGenerated(int foodGenerated) {
-        this.foodGenerated = foodGenerated;
+    public int getSizeForWin() {
+        return sizeForWin;
     }
 
-    public int getFoodNeeded() {
-        return foodNeeded;
-    }
-
-    public void setFoodNeeded(int foodNeeded) {
-        this.foodNeeded = foodNeeded;
+    public void setSizeForWin(int sizeForWin) {
+        this.sizeForWin = sizeForWin;
     }
 
     public int getFoodX() {
@@ -74,7 +66,7 @@ public class FoodGenerator {
     }
 
     public void generateFood(List<Point> snakeBody, int rows, int columns, List<Point> barriers) {
-        while (foodGenerated < foodNeeded) {
+        while (foodGenerated < sizeForWin) {
             for (int i = foodList.size(); i < foodOnField; i++) {
                 setFoodX((int) (Math.random() * rows));
                 setFoodY((int) (Math.random() * columns));
@@ -94,7 +86,7 @@ public class FoodGenerator {
                     if (foodList.get(i).getX() == barriers.get(j).getX() && foodList.get(i).getY() == barriers.get(j).getY()) {
                         int newX = ((int) (Math.random() * rows));
                         int newY = ((int) (Math.random() * columns));
-                        while (newX == barriers.get(j).getX() && newY == barriers.get(j).getY()){
+                        while (newX == barriers.get(j).getX() && newY == barriers.get(j).getY()) {
                             newX = ((int) (Math.random() * rows));
                             newY = ((int) (Math.random() * columns));
                         }
@@ -107,15 +99,9 @@ public class FoodGenerator {
             for (int i = 0; i < snakeBody.size(); i++) {
                 Point snake = snakeBody.get(i);
                 for (int j = 0; j < foodOnField; j++) {
-
                     if (snake.getX() == foodList.get(j).getX() && snake.getY() == foodList.get(j).getY()) {
-
                         int newX = ((int) (Math.random() * rows));
                         int newY = ((int) (Math.random() * columns));
-                        while (newX == barriers.get(j).getX() && newY == barriers.get(j).getY() && snake.getX() == newX && snake.getY() == newY){
-                            newX = ((int) (Math.random() * rows));
-                            newY = ((int) (Math.random() * columns));
-                        }
                         foodList.set(j, new Point(newX, newY));
                     }
 

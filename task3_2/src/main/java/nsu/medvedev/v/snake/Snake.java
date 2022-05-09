@@ -8,7 +8,7 @@ public class Snake {
     private List<Point> snakeBody = new ArrayList<>();
     private Point snakeHead;
 
-    Snake() {
+    public Snake() {
     }
 
     Snake(List<Point> snakeBody, Point snakeHead) {
