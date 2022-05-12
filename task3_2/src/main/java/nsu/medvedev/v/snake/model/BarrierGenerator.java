@@ -1,4 +1,4 @@
-package nsu.medvedev.v.snake;
+package nsu.medvedev.v.snake.model;
 
 import java.awt.*;
 import java.util.ArrayList;

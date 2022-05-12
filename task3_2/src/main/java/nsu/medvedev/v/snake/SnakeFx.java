@@ -9,17 +9,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import nsu.medvedev.v.snake.graphics.GraphicWork;
+import nsu.medvedev.v.snake.model.ParametersForGame;
+import nsu.medvedev.v.snake.model.*;
 
 import java.awt.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
-import static nsu.medvedev.v.snake.Direction.*;
+import static nsu.medvedev.v.snake.model.Direction.*;
 
 public class SnakeFx extends javafx.application.Application {
 
@@ -47,10 +48,6 @@ public class SnakeFx extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         Group root = new Group();
         Canvas canvas = new Canvas(800, 800);
-        InputStream iconStream = getClass().getResourceAsStream("snake.png");
-        assert iconStream != null;
-        Image image = new Image(iconStream);
-        stage.getIcons().add(image);
         stage.setTitle("Snake game3000!");
         root.getChildren().add(canvas);
         Scene scene = new Scene(root);
@@ -93,13 +90,14 @@ public class SnakeFx extends javafx.application.Application {
     }
 
     private void run(GraphicsContext gc, Stage stageStart) throws InterruptedException {
+        int flag = 0;
         if (snake.isGameOver(field.getSQUARE_SIZE(), field.getWIDTH(), field.getHEIGHT(), barrierGenerator.getBarriers())) {
             timeline.stop();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("you-lose.fxml"));
             transitionToNewFxml(stageStart, loader);
         }
-        if (victory()) {
+        if (isVictory()) {
             timeline.stop();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("you-win.fxml"));
@@ -110,16 +108,22 @@ public class SnakeFx extends javafx.application.Application {
         graphicWork.drawFood(gc, field.getSQUARE_SIZE(), foodGenerator.getFoodList());
         eatFood();
         graphicWork.drawSnake(gc, snake.getSnakeHead(), snake.getSnakeBody(), field.getSQUARE_SIZE());
-        for (int i = snake.getSnakeBody().size() - 1; i >= 1; i--) {
-            snake.getSnakeBody().get(i).x = snake.getSnakeBody().get(i - 1).x;
-            snake.getSnakeBody().get(i).y = snake.getSnakeBody().get(i - 1).y;
+
+        if (snake.getSnakeBody().size() > 1) {
+            Point newElem = snake.getSnakeBody().get(snake.getSnakeBody().size() - 1);
+            newElem.x = snake.getSnakeHead().x;
+            newElem.y = snake.getSnakeHead().y;
+            snake.getSnakeBody().add(1, newElem);
+            snake.eraseElem(snake.getSnakeBody());
         }
+
         switch (currentDirection) {
             case RIGHT -> snake.moveRight();
             case LEFT -> snake.moveLeft();
             case UP -> snake.moveUp();
             case DOWN -> snake.moveDown();
         }
+
     }
 
     private void transitionToNewFxml(Stage stageStart, FXMLLoader loader) throws InterruptedException {
@@ -136,7 +140,7 @@ public class SnakeFx extends javafx.application.Application {
         stageStart.close();
     }
 
-    public boolean victory() {
+    public boolean isVictory() {
         return foodGenerator.getFoodGenerated() == foodGenerator.getSizeForWin();
     }
 

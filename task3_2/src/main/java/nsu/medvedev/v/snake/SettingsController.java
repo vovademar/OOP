@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import nsu.medvedev.v.snake.SnakeFx;
+import nsu.medvedev.v.snake.model.ParametersForGame;
 
 public class SettingsController {
     private int mapSize = -1;

@@ -1,4 +1,4 @@
-package nsu.medvedev.v.snake;
+package nsu.medvedev.v.snake.model;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class Snake {
     public Snake() {
     }
 
-    Snake(List<Point> snakeBody, Point snakeHead) {
+    public Snake(List<Point> snakeBody, Point snakeHead) {
         this.snakeBody = snakeBody;
         this.snakeHead = snakeHead;
     }
@@ -24,6 +24,14 @@ public class Snake {
         return snakeHead;
     }
 
+    public void moveSnakeHead(){
+        snakeHead = snakeBody.get(0);
+    }
+
+    public void eraseElem(List<Point> snakeBody){
+        snakeBody.remove(snakeBody.size()-1);
+    }
+
     public void setSnakeHead(Point snakeHead) {
         this.snakeHead = snakeHead;
     }
@@ -31,7 +39,6 @@ public class Snake {
     public void setSnakeBody(List<Point> snakeBody) {
         this.snakeBody = snakeBody;
     }
-
 
     public void initSnake(int rows) {
         snakeBody.add(new Point(5, rows / 2));
