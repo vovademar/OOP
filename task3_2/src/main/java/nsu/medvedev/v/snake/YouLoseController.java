@@ -3,6 +3,7 @@ package nsu.medvedev.v.snake;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,7 +39,7 @@ public class YouLoseController {
             stage.close();
             stage.setScene(new Scene(root));
             stage.show();
-    });
+        });
 
-}
+    }
 }

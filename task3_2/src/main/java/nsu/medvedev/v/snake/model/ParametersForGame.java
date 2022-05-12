@@ -1,4 +1,4 @@
-package nsu.medvedev.v.snake;
+package nsu.medvedev.v.snake.model;
 
 public class ParametersForGame {
     private int fieldSize;
@@ -16,7 +16,7 @@ public class ParametersForGame {
     public ParametersForGame() {
         this.fieldSize = 20;
         this.foodOnField = 5;
-        this.barriersAmount = 10;
+        this.barriersAmount = 13;
         this.foodGoal = 10;
     }
 

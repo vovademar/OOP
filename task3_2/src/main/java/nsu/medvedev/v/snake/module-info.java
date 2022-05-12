@@ -7,4 +7,8 @@ module nsu.medvedev.v.snake {
 
     opens nsu.medvedev.v.snake to javafx.fxml;
     exports nsu.medvedev.v.snake;
+    exports nsu.medvedev.v.snake.model;
+    opens nsu.medvedev.v.snake.model to javafx.fxml;
+    exports nsu.medvedev.v.snake.graphics;
+    opens nsu.medvedev.v.snake.graphics to javafx.fxml;
 }

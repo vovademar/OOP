@@ -1,4 +1,4 @@
-package nsu.medvedev.v.snake;
+package nsu.medvedev.v.snake.model;
 
 public class FieldInfo {
     private final int WIDTH;
