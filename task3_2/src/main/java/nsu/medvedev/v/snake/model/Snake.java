@@ -9,6 +9,8 @@ public class Snake {
     private Point snakeHead;
 
     public Snake() {
+        List<Point> snakeBody = new ArrayList<>();
+        Point snakeHead;
     }
 
     public Snake(List<Point> snakeBody, Point snakeHead) {
@@ -72,12 +74,7 @@ public class Snake {
             }
         }
 
-        for (int i = 0; i < barriers.size(); i++) {
-            if (snakeHead.x == barriers.get(i).getX() && snakeHead.y == barriers.get(i).getY()) {
-                return true;
-            }
-        }
-        return false;
+        return barriers.contains(snakeHead);
     }
 
 }

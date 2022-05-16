@@ -3,6 +3,7 @@ package nsu.medvedev.v.snake.model;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BarrierGenerator {
     private List<Point> barriers = new ArrayList<>();
@@ -31,20 +32,14 @@ public class BarrierGenerator {
 
     public void generateBarriers(int rows, int columns) {
         for (int i = 0; i < amount; i++) {
-
-            int x = ((int) (Math.random() * rows));
-            int y = ((int) (Math.random() * columns));
-            for (int j = 0; j < barriers.size(); j++) {
-                if (x == barriers.get(j).getX() && barriers.get(j).getY() == y) {
-                    x = ((int) (Math.random() * rows));
-                    x = ((int) (Math.random() * columns));
-                    while (x == barriers.get(j).getX() && y == barriers.get(j).getY()){
-                        x = ((int) (Math.random() * rows));
-                        y = ((int) (Math.random() * columns));
-                    }
-                }
+            Random r = new Random();
+            while (barriers.size() < amount) {
+                Point randomPoint;
+                do {
+                    randomPoint = new Point(r.nextInt(rows), r.nextInt(columns));
+                } while (barriers.contains(randomPoint));
+                barriers.add(randomPoint);
             }
-            barriers.add(new Point(x, y));
         }
     }
 
