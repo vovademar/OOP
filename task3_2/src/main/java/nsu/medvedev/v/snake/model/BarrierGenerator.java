@@ -31,15 +31,13 @@ public class BarrierGenerator {
     }
 
     public void generateBarriers(int rows, int columns) {
-        for (int i = 0; i < amount; i++) {
-            Random r = new Random();
-            while (barriers.size() < amount) {
-                Point randomPoint;
-                do {
-                    randomPoint = new Point(r.nextInt(rows), r.nextInt(columns));
-                } while (barriers.contains(randomPoint));
-                barriers.add(randomPoint);
-            }
+        Random r = new Random();
+        while (barriers.size() < amount) {
+            Point randomPoint;
+            do {
+                randomPoint = new Point(r.nextInt(rows), r.nextInt(columns));
+            } while (barriers.contains(randomPoint));
+            barriers.add(randomPoint);
         }
     }
 

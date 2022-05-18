@@ -8,16 +8,6 @@ public class Snake {
     private List<Point> snakeBody = new ArrayList<>();
     private Point snakeHead;
 
-    public Snake() {
-        List<Point> snakeBody = new ArrayList<>();
-        Point snakeHead;
-    }
-
-    public Snake(List<Point> snakeBody, Point snakeHead) {
-        this.snakeBody = snakeBody;
-        this.snakeHead = snakeHead;
-    }
-
     public List<Point> getSnakeBody() {
         return snakeBody;
     }
